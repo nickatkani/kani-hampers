@@ -1,0 +1,16 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="circle">
+      <circle cx="16" cy="16" r="15"/>
+    </clipPath>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="16" cy="16" r="16" fill="#ef4444"/>
+  
+  <!-- Your logo image in circular clip -->
+  <image href="/favicon.jpg" x="1" y="1" width="30" height="30" clip-path="url(#circle)"/>
+  
+  <!-- Optional border -->
+  <circle cx="16" cy="16" r="15" fill="none" stroke="#fff" stroke-width="1"/>
+</svg>

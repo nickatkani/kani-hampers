@@ -1,0 +1,64 @@
+// Simple Razorpay test page
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Razorpay Test</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  </head>
+  <body>
+    <h1>Razorpay Payment Test</h1>
+    <button id="payButton">Test Payment</button>
+
+    <script>
+      document.getElementById("payButton").onclick = function (e) {
+        console.log("🔍 Testing Razorpay...");
+        console.log("Window.Razorpay:", !!window.Razorpay);
+
+        if (!window.Razorpay) {
+          alert("Razorpay not loaded!");
+          return;
+        }
+
+        var options = {
+          key: "rzp_test_CLZZxv5LZLx2Ir", // Your actual test key
+          amount: "50000", // Amount in paisa (₹500.00)
+          currency: "INR",
+          name: "KANI Gift Hampers",
+          description: "Test Transaction",
+          handler: function (response) {
+            console.log("✅ Payment successful!");
+            console.log("Payment ID:", response.razorpay_payment_id);
+            alert(
+              "Payment successful! Payment ID: " + response.razorpay_payment_id
+            );
+          },
+          prefill: {
+            name: "Test User",
+            email: "test@example.com",
+            contact: "9999999999",
+          },
+          theme: {
+            color: "#ef4444",
+          },
+          modal: {
+            ondismiss: function () {
+              console.log("❌ Payment modal dismissed");
+              alert("Payment cancelled");
+            },
+          },
+        };
+
+        console.log("🚀 Creating Razorpay instance with options:", options);
+        var rzp1 = new Razorpay(options);
+
+        rzp1.on("payment.failed", function (response) {
+          console.error("❌ Payment failed:", response.error);
+          alert("Payment failed: " + response.error.description);
+        });
+
+        console.log("🚀 Opening payment modal...");
+        rzp1.open();
+      };
+    </script>
+  </body>
+</html>

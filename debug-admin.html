@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Debug Admin Panel</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .button {
+        background: #ef4444;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        margin: 10px 5px;
+      }
+      .button:hover {
+        background: #dc2626;
+      }
+      .log {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+        max-height: 300px;
+        overflow-y: auto;
+        font-family: monospace;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Admin Panel Debug</h1>
+      <p>Testing admin panel access and Firebase connection.</p>
+
+      <div>
+        <button class="button" onclick="testFirebase()">
+          Test Firebase Connection
+        </button>
+        <button class="button" onclick="loadAdminData()">
+          Load Admin Data
+        </button>
+        <button class="button" onclick="openApp()">Open Main App</button>
+        <button class="button" onclick="clearLogs()">Clear Logs</button>
+      </div>
+
+      <div id="logs" class="log">Ready to test...\n</div>
+    </div>
+
+    <script>
+      function log(message) {
+        const logs = document.getElementById("logs");
+        logs.innerHTML +=
+          new Date().toLocaleTimeString() + ": " + message + "\n";
+        logs.scrollTop = logs.scrollHeight;
+      }
+
+      function clearLogs() {
+        document.getElementById("logs").innerHTML = "Logs cleared...\n";
+      }
+
+      async function testFirebase() {
+        log("Testing Firebase connection...");
+        try {
+          const response = await fetch("http://localhost:3006");
+          if (response.ok) {
+            log("✅ App server is running on port 3006");
+          } else {
+            log("❌ App server response error: " + response.status);
+          }
+        } catch (error) {
+          log("❌ Cannot connect to app server: " + error.message);
+        }
+      }
+
+      async function loadAdminData() {
+        log("Testing admin panel access...");
+        try {
+          // This would normally test the admin panel, but since it's a React app,
+          // we'll just check if the server is responding
+          log(
+            "📝 Admin panel should be accessible via the shield button in the main app"
+          );
+          log("🔍 Check browser console for React/Firebase errors");
+          log("🎯 Open developer tools and look for console errors");
+        } catch (error) {
+          log("❌ Error testing admin: " + error.message);
+        }
+      }
+
+      function openApp() {
+        log("🌐 Opening main app...");
+        window.open("http://localhost:3006", "_blank");
+      }
+
+      // Auto-test on load
+      setTimeout(testFirebase, 1000);
+    </script>
+  </body>
+</html>

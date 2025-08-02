@@ -1,0 +1,16 @@
+<svg width="180" height="180" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="apple-circle">
+      <circle cx="90" cy="90" r="85"/>
+    </clipPath>
+  </defs>
+  
+  <!-- Background -->
+  <circle cx="90" cy="90" r="90" fill="#ef4444"/>
+  
+  <!-- Your logo -->
+  <image href="/favicon.jpg" x="5" y="5" width="170" height="170" clip-path="url(#apple-circle)"/>
+  
+  <!-- Border -->
+  <circle cx="90" cy="90" r="85" fill="none" stroke="#fff" stroke-width="2"/>
+</svg>

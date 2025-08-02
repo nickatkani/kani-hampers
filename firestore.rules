@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow read access to all documents for public data
+    match /{document=**} {
+      allow read: if true;
+    }
+    
+    // Allow write access for orders (customers can create orders)
+    match /orders/{orderId} {
+      allow create: if true;
+      allow update: if true;
+    }
+    
+    // Allow read access to products and rakhis (public catalog)
+    match /products/{productId} {
+      allow read: if true;
+    }
+    
+    match /rakhis/{rakhiId} {
+      allow read: if true;
+    }
+    
+    // Allow write access for admin operations (you can restrict this later)
+    match /{collection}/{document} {
+      allow write: if true;
+    }
+  }
+}
