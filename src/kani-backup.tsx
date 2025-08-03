@@ -790,6 +790,11 @@ const KaniRakhiWebsite = () => {
     cart.addons.forEach((addon: any) => {
       total += addon.price * addon.quantity;
     });
+    
+    // Add delivery charge
+    const deliveryCharge = parseInt(import.meta.env.VITE_DELIVERY_CHARGE || '120');
+    total += deliveryCharge;
+    
     return total;
   };
 

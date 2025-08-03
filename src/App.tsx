@@ -3,6 +3,7 @@ import KaniRakhiWebsite from "./kani";
 import AdminDashboard from "./AdminDashboard-mongo";
 import { Shield } from "lucide-react";
 import "./index.css";
+import { getApiUrl } from "./api-config";
 
 // Admin user type
 interface AdminUser {
@@ -181,7 +182,7 @@ function App() {
       }
 
       // Authenticate with the server
-      const response = await fetch("/api/admin/login", {
+      const response = await fetch(getApiUrl("/api/admin/login"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

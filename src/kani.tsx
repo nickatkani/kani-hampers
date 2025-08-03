@@ -18,6 +18,7 @@ import {
   X,
 } from "lucide-react";
 import { RAZORPAY_CONFIG, convertToPaisa } from "./razorpay";
+import { getApiUrl } from "./api-config";
 
 // Types
 interface Rakhi {
@@ -224,6 +225,25 @@ const CartPageComponent = ({
   mobileMenuOpen: boolean;
   setMobileMenuOpen: (open: boolean) => void;
 }) => {
+  // Helper function to get delivery charge
+  const getDeliveryCharge = () => {
+    return parseInt(import.meta.env.VITE_DELIVERY_CHARGE || '120');
+  };
+
+  // Calculate subtotal (without delivery charge)
+  const calculateSubtotal = () => {
+    let total = cart.hamper?.price || 0;
+    total += cart.additionalRakhis.reduce(
+      (sum: number, rakhi: any) => sum + rakhi.price * rakhi.quantity,
+      0
+    );
+    total += cart.addons.reduce(
+      (sum: number, addon: any) => sum + addon.price * addon.quantity,
+      0
+    );
+    return total;
+  };
+
   const [deliveryInfo, setDeliveryInfo] = useState({
     name: "",
     email: "",
@@ -481,7 +501,19 @@ const CartPageComponent = ({
               </div>
             )}
 
-            <div className="flex justify-between items-center text-lg sm:text-xl font-bold">
+            {/* Subtotal */}
+            <div className="flex justify-between items-center text-sm sm:text-base border-t pt-4">
+              <span>Subtotal:</span>
+              <span className="text-gray-700">₹{calculateSubtotal()}</span>
+            </div>
+
+            {/* Delivery Charge */}
+            <div className="flex justify-between items-center text-sm sm:text-base">
+              <span>Delivery Charges:</span>
+              <span className="text-gray-600">₹{getDeliveryCharge()}</span>
+            </div>
+
+            <div className="flex justify-between items-center text-lg sm:text-xl font-bold border-t pt-2">
               <span>Total:</span>
               <span className="text-red-600">₹{calculateTotal()}</span>
             </div>
@@ -712,6 +744,11 @@ const PersonalMessageStep = React.memo(
 );
 
 const KaniRakhiWebsite = () => {
+  // Helper function to get delivery charge
+  const getDeliveryCharge = () => {
+    return parseInt(import.meta.env.VITE_DELIVERY_CHARGE || '120');
+  };
+
   const [currentPage, setCurrentPage] = useState("home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -786,7 +823,7 @@ const KaniRakhiWebsite = () => {
   const loadRakhiData = async () => {
     try {
       // Replace Firebase with API call
-      const response = await fetch("/api/rakhis");
+      const response = await fetch(getApiUrl("/api/rakhis"));
       const rakhisData = await response.json();
 
       if (rakhisData.length > 0) {
@@ -807,7 +844,7 @@ const KaniRakhiWebsite = () => {
   const loadAddonsData = async () => {
     try {
       // Replace Firebase with API call
-      const response = await fetch("/api/addons");
+      const response = await fetch(getApiUrl("/api/addons"));
       const addonsDataFromAPI = await response.json();
 
       if (addonsDataFromAPI.length > 0) {
@@ -1000,7 +1037,7 @@ const KaniRakhiWebsite = () => {
             const formData = new FormData();
             formData.append("image", file);
 
-            const response = await fetch("/api/upload", {
+            const response = await fetch(getApiUrl("/api/upload"), {
               method: "POST",
               body: formData,
             });
@@ -1159,6 +1196,10 @@ const KaniRakhiWebsite = () => {
       (sum: number, addon: any) => sum + addon.price * addon.quantity,
       0
     );
+    
+    // Add delivery charge
+    total += getDeliveryCharge();
+    
     return total;
   };
 
@@ -1223,7 +1264,7 @@ const KaniRakhiWebsite = () => {
           };
 
           // Save to MongoDB via API
-          fetch("/api/orders", {
+          fetch(getApiUrl("/api/orders"), {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

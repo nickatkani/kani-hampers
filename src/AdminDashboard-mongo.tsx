@@ -14,6 +14,7 @@ import {
   Image,
 } from "lucide-react";
 import jsPDF from "jspdf";
+import { getApiUrl } from "./api-config";
 
 // Types
 interface Order {
@@ -61,7 +62,7 @@ const mongoAdmin = {
   async getCollection(collectionName: string) {
     try {
       console.log(`🔍 Fetching collection: ${collectionName}`);
-      const response = await fetch(`/api/${collectionName}`);
+      const response = await fetch(getApiUrl(`/api/${collectionName}`));
       if (!response.ok) {
         throw new Error(`Failed to fetch ${collectionName}`);
       }
@@ -78,7 +79,7 @@ const mongoAdmin = {
   async addDocument(collectionName: string, data: any) {
     try {
       console.log(`➕ Adding document to ${collectionName}:`, data);
-      const response = await fetch(`/api/${collectionName}`, {
+      const response = await fetch(getApiUrl(`/api/${collectionName}`), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -101,7 +102,7 @@ const mongoAdmin = {
   async updateDocument(collectionName: string, id: string, data: any) {
     try {
       console.log(`🔄 Updating document in ${collectionName}:`, id, data);
-      const response = await fetch(`/api/${collectionName}/${id}`, {
+      const response = await fetch(getApiUrl(`/api/${collectionName}/${id}`), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -124,7 +125,7 @@ const mongoAdmin = {
   async deleteDocument(collectionName: string, id: string) {
     try {
       console.log(`🗑️ Deleting document from ${collectionName}:`, id);
-      const response = await fetch(`/api/${collectionName}/${id}`, {
+      const response = await fetch(getApiUrl(`/api/${collectionName}/${id}`), {
         method: "DELETE",
       });
       if (!response.ok) {
@@ -149,7 +150,7 @@ const mongoAdmin = {
       const formData = new FormData();
       formData.append("image", file);
 
-      const response = await fetch("/api/upload", {
+      const response = await fetch(getApiUrl("/api/upload"), {
         method: "POST",
         body: formData,
       });
@@ -293,7 +294,7 @@ const AdminDashboard: React.FC = () => {
   const updateOrderStatus = async (orderId: string, newStatus: string) => {
     try {
       console.log(`🔄 Updating order status for ${orderId} to ${newStatus}`);
-      const response = await fetch(`/api/orders/${orderId}/status`, {
+      const response = await fetch(getApiUrl(`/api/orders/${orderId}/status`), {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
