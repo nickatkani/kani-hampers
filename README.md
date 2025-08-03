@@ -1,6 +1,6 @@
-# KANI Rakhi Hampers
+# KANI Gift Hampers
 
-A beautiful React application for creating personalized Rakhi hampers with love.
+A beautiful e-commerce platform for personalized Rakhi hampers and gifts.
 
 ## Features
 
@@ -11,12 +11,15 @@ A beautiful React application for creating personalized Rakhi hampers with love.
 - ✨ Add special add-ons
 - 🛒 Complete shopping cart experience
 - 📱 Responsive design with beautiful UI
+- 👨‍💼 Admin dashboard for order management
+- 💳 Razorpay payment integration
+- 🗄️ MongoDB Atlas database
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (version 16 or higher)
+- Node.js (version 18 or higher)
 - npm or yarn
 
 ### Installation
@@ -294,4 +297,4 @@ kani-hampers (Firebase Project)
 
 ---
 
-Made with ❤️ by Umesh Udayar
+Made with ❤️ by KANI Team
