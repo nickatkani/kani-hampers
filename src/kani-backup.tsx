@@ -120,7 +120,11 @@ const getDocumentFromFirestore = async (name: string, id: string) => {
   }
 };
 
-const updateDocumentInFirestore = async (name: string, id: string, data: any) => {
+const updateDocumentInFirestore = async (
+  name: string,
+  id: string,
+  data: any
+) => {
   try {
     const docRef = doc(db, name, id);
     await updateDoc(docRef, {
@@ -325,7 +329,7 @@ const CartPageComponent = ({
             {/* Delivery Information */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold">Delivery Information</h3>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -353,7 +357,10 @@ const CartPageComponent = ({
                     required
                     value={deliveryInfo.email}
                     onChange={(e) =>
-                      setDeliveryInfo((prev) => ({ ...prev, email: e.target.value }))
+                      setDeliveryInfo((prev) => ({
+                        ...prev,
+                        email: e.target.value,
+                      }))
                     }
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"
                     placeholder="Enter your email"
@@ -369,7 +376,9 @@ const CartPageComponent = ({
                     required
                     value={deliveryInfo.phone}
                     onChange={(e) => {
-                      const value = e.target.value.replace(/\D/g, "").slice(0, 10);
+                      const value = e.target.value
+                        .replace(/\D/g, "")
+                        .slice(0, 10);
                       setDeliveryInfo((prev) => ({ ...prev, phone: value }));
                     }}
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"
@@ -386,7 +395,9 @@ const CartPageComponent = ({
                     required
                     value={deliveryInfo.pincode}
                     onChange={(e) => {
-                      const value = e.target.value.replace(/\D/g, "").slice(0, 6);
+                      const value = e.target.value
+                        .replace(/\D/g, "")
+                        .slice(0, 6);
                       setDeliveryInfo((prev) => ({ ...prev, pincode: value }));
                     }}
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"
@@ -403,7 +414,10 @@ const CartPageComponent = ({
                   required
                   value={deliveryInfo.address}
                   onChange={(e) =>
-                    setDeliveryInfo((prev) => ({ ...prev, address: e.target.value }))
+                    setDeliveryInfo((prev) => ({
+                      ...prev,
+                      address: e.target.value,
+                    }))
                   }
                   rows={3}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"
@@ -419,7 +433,10 @@ const CartPageComponent = ({
                   type="date"
                   value={deliveryInfo.deliveryDate}
                   onChange={(e) =>
-                    setDeliveryInfo((prev) => ({ ...prev, deliveryDate: e.target.value }))
+                    setDeliveryInfo((prev) => ({
+                      ...prev,
+                      deliveryDate: e.target.value,
+                    }))
                   }
                   min={new Date().toISOString().split("T")[0]}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"
@@ -437,7 +454,14 @@ const CartPageComponent = ({
 
             <button
               onClick={handlePlaceOrder}
-              disabled={loading || !deliveryInfo.name || !deliveryInfo.email || !deliveryInfo.phone || !deliveryInfo.address || !deliveryInfo.pincode}
+              disabled={
+                loading ||
+                !deliveryInfo.name ||
+                !deliveryInfo.email ||
+                !deliveryInfo.phone ||
+                !deliveryInfo.address ||
+                !deliveryInfo.pincode
+              }
               className="w-full bg-red-500 hover:bg-red-600 disabled:bg-gray-400 text-white py-4 rounded-lg font-semibold text-lg transition-colors"
             >
               {loading ? "Processing..." : "Place Order"}
@@ -580,7 +604,7 @@ const KaniRakhiWebsite = () => {
   // Carousel images
   const carouselImages = [
     "/carousel/csr1.jpg",
-    "/carousel/csr2.jpg", 
+    "/carousel/csr2.jpg",
     "/carousel/csr3.jpg",
     "/carousel/csr4.jpg",
     "/carousel/csr5.jpg",
@@ -603,7 +627,7 @@ const KaniRakhiWebsite = () => {
     return () => clearInterval(timer);
   }, [carouselImages.length]);
 
-  // Auto-advance rose carousel  
+  // Auto-advance rose carousel
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentRoseSlide((prev) => (prev + 1) % roseImages.length);
@@ -695,72 +719,82 @@ const KaniRakhiWebsite = () => {
     return `Upload Photos (${currentCount}/${maxPhotos})`;
   };
 
-  const handleFileUpload = useCallback(async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files?.[0];
-    if (!file) {
-      console.log('❌ No file selected');
-      return;
-    }
+  const handleFileUpload = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (!file) {
+        console.log("❌ No file selected");
+        return;
+      }
 
-    console.log('📁 File selected:', {
-      name: file.name,
-      size: file.size,
-      type: file.type,
-      lastModified: new Date(file.lastModified).toISOString()
-    });
+      console.log("📁 File selected:", {
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        lastModified: new Date(file.lastModified).toISOString(),
+      });
 
-    // Enhanced validation
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
-    if (!allowedTypes.includes(file.type)) {
-      const error = `Invalid file type: ${file.type}. Please select a JPEG, PNG, GIF, or WebP image.`;
-      console.error('❌ Validation error:', error);
-      alert(error);
-      return;
-    }
+      // Enhanced validation
+      const allowedTypes = [
+        "image/jpeg",
+        "image/jpg",
+        "image/png",
+        "image/gif",
+        "image/webp",
+      ];
+      if (!allowedTypes.includes(file.type)) {
+        const error = `Invalid file type: ${file.type}. Please select a JPEG, PNG, GIF, or WebP image.`;
+        console.error("❌ Validation error:", error);
+        alert(error);
+        return;
+      }
 
-    const maxSize = 2 * 1024 * 1024; // 2MB limit
-    if (file.size > maxSize) {
-      const error = `File too large: ${(file.size / 1024 / 1024).toFixed(2)}MB. Maximum size is 2MB.`;
-      console.error('❌ Size validation error:', error);
-      alert(error);
-      return;
-    }
+      const maxSize = 2 * 1024 * 1024; // 2MB limit
+      if (file.size > maxSize) {
+        const error = `File too large: ${(file.size / 1024 / 1024).toFixed(
+          2
+        )}MB. Maximum size is 2MB.`;
+        console.error("❌ Size validation error:", error);
+        alert(error);
+        return;
+      }
 
-    // Check photo limits
-    const maxPhotos = getMaxPhotos(cart.hamper?.id);
-    if (cart.photos.length >= maxPhotos) {
-      const error = `Maximum ${maxPhotos} photos allowed for ${cart.hamper?.title || 'this hamper'}`;
-      console.error('❌ Limit validation error:', error);
-      alert(error);
-      return;
-    }
+      // Check photo limits
+      const maxPhotos = getMaxPhotos(cart.hamper?.id);
+      if (cart.photos.length >= maxPhotos) {
+        const error = `Maximum ${maxPhotos} photos allowed for ${
+          cart.hamper?.title || "this hamper"
+        }`;
+        console.error("❌ Limit validation error:", error);
+        alert(error);
+        return;
+      }
 
-    try {
-      console.log('🖼️ Creating preview...');
-      // Create immediate preview
-      const previewURL = URL.createObjectURL(file);
-      
-      // Add preview to cart immediately for better UX
-      setCart(prev => ({
-        ...prev,
-        photos: [...prev.photos, previewURL],
-        photo: prev.photos.length === 0 ? previewURL : prev.photo
-      }));
+      try {
+        console.log("🖼️ Creating preview...");
+        // Create immediate preview
+        const previewURL = URL.createObjectURL(file);
 
-      console.log('⬆️ Photo uploaded successfully!');
-      alert(`Photo uploaded successfully! ${file.name}`);
+        // Add preview to cart immediately for better UX
+        setCart((prev) => ({
+          ...prev,
+          photos: [...prev.photos, previewURL],
+          photo: prev.photos.length === 0 ? previewURL : prev.photo,
+        }));
 
-    } catch (error) {
-      console.error('❌ Upload error:', error);
-      alert('Upload failed. Please try again.');
-    } finally {
-      // Clear input for future uploads
-      event.target.value = '';
-      console.log('🧹 Upload process completed, input cleared');
-    }
-  }, [cart.hamper?.id, cart.photos.length]);
+        console.log("⬆️ Photo uploaded successfully!");
+        alert(`Photo uploaded successfully! ${file.name}`);
+      } catch (error) {
+        console.error("❌ Upload error:", error);
+        alert("Upload failed. Please try again.");
+      } finally {
+        // Clear input for future uploads
+        event.target.value = "";
+        console.log("🧹 Upload process completed, input cleared");
+      }
+    },
+    [cart.hamper?.id, cart.photos.length]
+  );
 
   // File input click handler
   const handleFileInputClick = useCallback(() => {
@@ -790,11 +824,13 @@ const KaniRakhiWebsite = () => {
     cart.addons.forEach((addon: any) => {
       total += addon.price * addon.quantity;
     });
-    
+
     // Add delivery charge
-    const deliveryCharge = parseInt(import.meta.env.VITE_DELIVERY_CHARGE || '120');
+    const deliveryCharge = parseInt(
+      import.meta.env.VITE_DELIVERY_CHARGE || "120"
+    );
     total += deliveryCharge;
-    
+
     return total;
   };
 
@@ -838,7 +874,7 @@ const KaniRakhiWebsite = () => {
         description: `Order for ${cart.hamper?.title || "Custom Hamper"}`,
         handler: async function (response: any) {
           console.log("✅ Payment successful:", response);
-          
+
           try {
             // Update order with payment details
             await updateDocumentInFirestore("orders", orderId, {
@@ -847,8 +883,10 @@ const KaniRakhiWebsite = () => {
               paidAt: new Date().toISOString(),
             });
 
-            alert("Order placed successfully! You will receive a confirmation email shortly.");
-            
+            alert(
+              "Order placed successfully! You will receive a confirmation email shortly."
+            );
+
             // Reset cart and go to home
             setCart({
               hamper: null,
@@ -862,7 +900,9 @@ const KaniRakhiWebsite = () => {
             setCurrentPage("home");
           } catch (error) {
             console.error("❌ Error updating order:", error);
-            alert("Payment received but there was an error. Please contact support.");
+            alert(
+              "Payment received but there was an error. Please contact support."
+            );
           }
         },
         prefill: {
@@ -968,22 +1008,52 @@ const KaniRakhiWebsite = () => {
               Customize Your {cart.hamper?.title}
             </h1>
             <div className="flex items-center gap-4 mt-4">
-              <div className={`flex items-center gap-2 ${customizationStep >= 1 ? 'text-red-600' : 'text-gray-400'}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${customizationStep >= 1 ? 'bg-red-600 text-white' : 'bg-gray-200'}`}>
+              <div
+                className={`flex items-center gap-2 ${
+                  customizationStep >= 1 ? "text-red-600" : "text-gray-400"
+                }`}
+              >
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                    customizationStep >= 1
+                      ? "bg-red-600 text-white"
+                      : "bg-gray-200"
+                  }`}
+                >
                   1
                 </div>
                 <span className="hidden sm:inline">Choose Hamper</span>
               </div>
               <div className="flex-1 h-px bg-gray-200"></div>
-              <div className={`flex items-center gap-2 ${customizationStep >= 2 ? 'text-red-600' : 'text-gray-400'}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${customizationStep >= 2 ? 'bg-red-600 text-white' : 'bg-gray-200'}`}>
+              <div
+                className={`flex items-center gap-2 ${
+                  customizationStep >= 2 ? "text-red-600" : "text-gray-400"
+                }`}
+              >
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                    customizationStep >= 2
+                      ? "bg-red-600 text-white"
+                      : "bg-gray-200"
+                  }`}
+                >
                   2
                 </div>
                 <span className="hidden sm:inline">Add Photos</span>
               </div>
               <div className="flex-1 h-px bg-gray-200"></div>
-              <div className={`flex items-center gap-2 ${customizationStep >= 3 ? 'text-red-600' : 'text-gray-400'}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${customizationStep >= 3 ? 'bg-red-600 text-white' : 'bg-gray-200'}`}>
+              <div
+                className={`flex items-center gap-2 ${
+                  customizationStep >= 3 ? "text-red-600" : "text-gray-400"
+                }`}
+              >
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                    customizationStep >= 3
+                      ? "bg-red-600 text-white"
+                      : "bg-gray-200"
+                  }`}
+                >
                   3
                 </div>
                 <span className="hidden sm:inline">Message</span>
@@ -998,8 +1068,12 @@ const KaniRakhiWebsite = () => {
                 <h2 className="text-xl font-bold mb-4">Selected Hamper</h2>
                 <div className="bg-gray-50 rounded-lg p-6 mb-6">
                   <h3 className="text-lg font-semibold">{cart.hamper.title}</h3>
-                  <p className="text-gray-600 mt-2">{cart.hamper.description}</p>
-                  <p className="text-red-600 font-bold text-xl mt-4">₹{cart.hamper.price}</p>
+                  <p className="text-gray-600 mt-2">
+                    {cart.hamper.description}
+                  </p>
+                  <p className="text-red-600 font-bold text-xl mt-4">
+                    ₹{cart.hamper.price}
+                  </p>
                 </div>
               </div>
             )}
@@ -1007,8 +1081,10 @@ const KaniRakhiWebsite = () => {
             {/* Step 2: Photo Upload */}
             {customizationStep === 2 && (
               <div>
-                <h2 className="text-xl font-bold text-center mb-6">Add Your Photos</h2>
-                
+                <h2 className="text-xl font-bold text-center mb-6">
+                  Add Your Photos
+                </h2>
+
                 {getMaxPhotos(cart.hamper?.id) > 0 ? (
                   <div className="space-y-6">
                     {/* Photo upload area */}
@@ -1029,7 +1105,8 @@ const KaniRakhiWebsite = () => {
                             Add Your Photos
                           </p>
                           <p className="text-sm text-gray-500 mt-1">
-                            Upload up to {getMaxPhotos(cart.hamper?.id)} photos for your hamper
+                            Upload up to {getMaxPhotos(cart.hamper?.id)} photos
+                            for your hamper
                           </p>
                         </div>
                         <button
@@ -1071,7 +1148,9 @@ const KaniRakhiWebsite = () => {
                   </div>
                 ) : (
                   <div className="text-center py-8">
-                    <p className="text-gray-600">This hamper doesn't require photo uploads.</p>
+                    <p className="text-gray-600">
+                      This hamper doesn't require photo uploads.
+                    </p>
                   </div>
                 )}
               </div>
@@ -1128,13 +1207,13 @@ const KaniRakhiWebsite = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <MobileNavigation />
-      
+
       {currentPage === "home" && (
         <div>
           {/* Hero Section with Carousel */}
           <div className="relative bg-gradient-to-br from-orange-50 to-red-50">
             <MobileNavigation />
-            
+
             {/* Hero Background Carousel */}
             <div className="relative py-12 sm:py-16 md:py-20 px-4 sm:px-6 text-center overflow-hidden min-h-[500px] sm:min-h-[600px]">
               {/* Background carousel */}
@@ -1161,7 +1240,8 @@ const KaniRakhiWebsite = () => {
                   Kani Hampers
                 </h1>
                 <p className="text-lg sm:text-xl md:text-2xl text-white/90 mb-6 sm:mb-8 max-w-2xl mx-auto">
-                  Celebrate Raksha Bandhan with Love, Tradition & Beautiful Memories
+                  Celebrate Raksha Bandhan with Love, Tradition & Beautiful
+                  Memories
                 </p>
                 <button
                   onClick={() => setCurrentPage("hampers")}
@@ -1195,7 +1275,8 @@ const KaniRakhiWebsite = () => {
                   Our Special Hampers
                 </h2>
                 <p className="text-lg text-gray-600 text-center mb-8 sm:mb-12 max-w-2xl mx-auto">
-                  Choose from our carefully curated hamper collections, each designed to make your Raksha Bandhan celebration unforgettable
+                  Choose from our carefully curated hamper collections, each
+                  designed to make your Raksha Bandhan celebration unforgettable
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 sm:gap-8">
                   {hamperOptions.map((hamper) => (
@@ -1210,10 +1291,12 @@ const KaniRakhiWebsite = () => {
                       <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-red-400 to-orange-400 rounded-full mx-auto mb-4 sm:mb-6 flex items-center justify-center">
                         <Gift className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
                       </div>
-                      
+
                       <div className="p-6">
                         <div className="text-2xl sm:text-3xl font-bold text-red-600 mb-4 sm:mb-6">
-                          {hamper.showPrice !== false ? `₹${hamper.price}` : "Custom"}
+                          {hamper.showPrice !== false
+                            ? `₹${hamper.price}`
+                            : "Custom"}
                         </div>
                         <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">
                           {hamper.title}
@@ -1223,7 +1306,10 @@ const KaniRakhiWebsite = () => {
                         </p>
                         <ul className="space-y-2 mb-6 sm:mb-8">
                           {hamper.includes.slice(0, 3).map((item, index) => (
-                            <li key={index} className="flex items-center text-sm sm:text-base text-gray-700">
+                            <li
+                              key={index}
+                              className="flex items-center text-sm sm:text-base text-gray-700"
+                            >
                               <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
                               {item}
                             </li>
@@ -1255,22 +1341,37 @@ const KaniRakhiWebsite = () => {
                     <div className="w-16 h-16 bg-red-500 rounded-full mx-auto mb-4 flex items-center justify-center">
                       <Heart className="w-8 h-8 text-white" />
                     </div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Made with Love</h3>
-                    <p className="text-gray-600">Every hamper is carefully curated and packed with love to make your celebration special.</p>
+                    <h3 className="text-xl font-bold text-gray-900 mb-3">
+                      Made with Love
+                    </h3>
+                    <p className="text-gray-600">
+                      Every hamper is carefully curated and packed with love to
+                      make your celebration special.
+                    </p>
                   </div>
                   <div className="p-4 sm:p-6">
                     <div className="w-16 h-16 bg-pink-500 rounded-full mx-auto mb-4 flex items-center justify-center">
                       <Camera className="w-8 h-8 text-white" />
                     </div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Personal Photos</h3>
-                    <p className="text-gray-600">Add your precious memories with custom photo uploads for a truly personal touch.</p>
+                    <h3 className="text-xl font-bold text-gray-900 mb-3">
+                      Personal Photos
+                    </h3>
+                    <p className="text-gray-600">
+                      Add your precious memories with custom photo uploads for a
+                      truly personal touch.
+                    </p>
                   </div>
                   <div className="p-4 sm:p-6">
                     <div className="w-16 h-16 bg-orange-500 rounded-full mx-auto mb-4 flex items-center justify-center">
                       <Package className="w-8 h-8 text-white" />
                     </div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Fast Delivery</h3>
-                    <p className="text-gray-600">Quick and secure delivery to ensure your hamper reaches on time for the celebration.</p>
+                    <h3 className="text-xl font-bold text-gray-900 mb-3">
+                      Fast Delivery
+                    </h3>
+                    <p className="text-gray-600">
+                      Quick and secure delivery to ensure your hamper reaches on
+                      time for the celebration.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -1302,7 +1403,8 @@ const KaniRakhiWebsite = () => {
                   Special Collaboration
                 </h2>
                 <p className="text-lg sm:text-xl text-white/90 mb-6 sm:mb-8 max-w-2xl mx-auto">
-                  Discover our exclusive jewelry collection in partnership with Rose
+                  Discover our exclusive jewelry collection in partnership with
+                  Rose
                 </p>
                 <div className="flex justify-center space-x-3 sm:space-x-4">
                   <button className="bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white px-6 sm:px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105">
@@ -1338,7 +1440,8 @@ const KaniRakhiWebsite = () => {
                   Get in Touch
                 </h2>
                 <p className="text-lg text-gray-300 mb-8 sm:mb-12">
-                  Have questions about our hampers? We're here to help make your Raksha Bandhan perfect!
+                  Have questions about our hampers? We're here to help make your
+                  Raksha Bandhan perfect!
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8">
                   <a
@@ -1372,17 +1475,18 @@ const KaniRakhiWebsite = () => {
       {currentPage === "hampers" && (
         <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50">
           <MobileNavigation />
-          
+
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
             <div className="text-center mb-8 sm:mb-12">
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
                 Choose Your Perfect Hamper
               </h1>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Each hamper is carefully designed to create beautiful memories and celebrate the bond of love
+                Each hamper is carefully designed to create beautiful memories
+                and celebrate the bond of love
               </p>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12">
               {hamperOptions.map((hamper) => (
                 <div
@@ -1399,11 +1503,13 @@ const KaniRakhiWebsite = () => {
                     </div>
                     <div className="absolute top-4 right-4">
                       <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-semibold text-red-600">
-                        {hamper.showPrice !== false ? `₹${hamper.price}` : "Custom"}
+                        {hamper.showPrice !== false
+                          ? `₹${hamper.price}`
+                          : "Custom"}
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="p-6 sm:p-8">
                     <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
                       {hamper.title}
@@ -1411,22 +1517,29 @@ const KaniRakhiWebsite = () => {
                     <p className="text-gray-600 mb-6 text-base sm:text-lg leading-relaxed">
                       {hamper.description}
                     </p>
-                    
+
                     <div className="space-y-3 mb-8">
-                      <h4 className="font-semibold text-gray-900 text-lg">What's Included:</h4>
+                      <h4 className="font-semibold text-gray-900 text-lg">
+                        What's Included:
+                      </h4>
                       <ul className="space-y-2">
                         {hamper.includes.map((item, index) => (
-                          <li key={index} className="flex items-center text-gray-700">
+                          <li
+                            key={index}
+                            className="flex items-center text-gray-700"
+                          >
                             <Check className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
                             <span className="text-base">{item}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
-                    
+
                     <div className="flex justify-between items-center">
                       <div className="text-3xl font-bold text-red-600">
-                        {hamper.showPrice !== false ? `₹${hamper.price}` : "Custom Price"}
+                        {hamper.showPrice !== false
+                          ? `₹${hamper.price}`
+                          : "Custom Price"}
                       </div>
                       <button className="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform group-hover:scale-105 shadow-lg">
                         Customize Now
@@ -1436,7 +1549,7 @@ const KaniRakhiWebsite = () => {
                 </div>
               ))}
             </div>
-            
+
             {/* Call to action */}
             <div className="text-center mt-12 sm:mt-16">
               <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 max-w-2xl mx-auto">
@@ -1444,7 +1557,8 @@ const KaniRakhiWebsite = () => {
                   Need Help Choosing?
                 </h3>
                 <p className="text-gray-600 mb-6">
-                  Our team is here to help you create the perfect hamper for your loved ones
+                  Our team is here to help you create the perfect hamper for
+                  your loved ones
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <button className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 inline-flex items-center justify-center gap-2">

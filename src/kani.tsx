@@ -227,7 +227,7 @@ const CartPageComponent = ({
 }) => {
   // Helper function to get delivery charge
   const getDeliveryCharge = () => {
-    return parseInt(import.meta.env.VITE_DELIVERY_CHARGE || '120');
+    return parseInt(import.meta.env.VITE_DELIVERY_CHARGE || "120");
   };
 
   // Calculate subtotal (without delivery charge)
@@ -746,7 +746,7 @@ const PersonalMessageStep = React.memo(
 const KaniRakhiWebsite = () => {
   // Helper function to get delivery charge
   const getDeliveryCharge = () => {
-    return parseInt(import.meta.env.VITE_DELIVERY_CHARGE || '120');
+    return parseInt(import.meta.env.VITE_DELIVERY_CHARGE || "120");
   };
 
   const [currentPage, setCurrentPage] = useState("home");
@@ -1196,10 +1196,10 @@ const KaniRakhiWebsite = () => {
       (sum: number, addon: any) => sum + addon.price * addon.quantity,
       0
     );
-    
+
     // Add delivery charge
     total += getDeliveryCharge();
-    
+
     return total;
   };
 
